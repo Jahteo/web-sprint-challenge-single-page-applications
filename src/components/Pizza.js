@@ -1,17 +1,27 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Link, Route, Switch } from "react-router-dom"
 import * as yup from "yup"
 import axios from "axios"
 
 export default function Pizza () {
     const [order, setOrder] = useState({name: "", size: "", toppings: {cheese: "", anchovies: "", pepperoni: "", balsamic: ""}, instructions: ""})
-    const [errors, setErrors] = useState({name: "", size: "", toppings: {cheese: "", anchovies: "", pepperoni: "", balsamic: ""}, instructions: ""})
-    const [post, setPost] = useState()
+    const [errors, setErrors] = useState({name: "", size: "", cheese: "", anchovies: "", pepperoni: "", balsamic: "", instructions: ""})
+    const [post, setPost] = useState([])
+    const [buttonDisabled, setButtonDisabled] = useState(true)
+
 
     //mine is erroring out for some reason
-    const formSchema = yup.object().shape({
+    const formSchema = yup.object().noUnknown(false).shape({
         name: yup.string().min(2, "at least 2 letters please").required("Name is a required field.")
     })
+
+
+    // useEffect(()=>{
+    //     formSchema.isValid(order).then(v =>{
+    //         setButtonDisabled(!v)
+    //     })
+    // }, [order])
+
     //Currenlty doing something very strange. sending the order object back in my errors & breaking when I input into any field other than name(which I think has to do with only having name in my schema).
     const validateChange = (e) => {
         yup.reach(formSchema, e.target.name)
@@ -59,7 +69,10 @@ export default function Pizza () {
         e.persist()
         const newOrderData = {...order, [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value}
         console.log(newOrderData)
-        // validateChange(e)
+        if (e.target.name === "name") {
+            //yup is isn't accepting all fields & is only accepting the one I defined.
+            validateChange(e)
+        }
         setOrder(newOrderData)
     }
     const submitOrder = (e) => {
