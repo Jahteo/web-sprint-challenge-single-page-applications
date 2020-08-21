@@ -12,7 +12,6 @@ export default function Home () {
     return (
         <div>
             <h1>Welcome to Lambda Eats</h1>
-            <h2>Because great coders need the best food service ISA's and RCI's can offer!</h2>
             {/* is the routeToPizza somthing biult into Link? idk why to use a button vs a link, so I smashed them together brutally here. */}
             <Link to="/pizza" onclick={routeToPizza}>
                 Order Pizza Now!

@@ -5,7 +5,8 @@ export default function NavBar () {
 
     return (
         <div>
-            NavBar
+            (NavBar)
+            LAMBDA EATS
             <Link to="/">Home</Link>
             <Link to="/pizza">Order Pizza</Link>
         </div>

@@ -8,6 +8,8 @@ const App = () => {
   return (
     <>
       <NavBar />
+      <h1>Lambda Eats</h1>
+        <p>Because great coders need the best food service ISA's and RCI's can offer!</p>
         <Switch>
           <Route path="/pizza">
             <Pizza />
@@ -19,8 +21,6 @@ const App = () => {
             ErrorPage. Wrong url.
           </Route>
         </Switch>
-      <h1>Lambda Eats</h1>
-      <p>You can remove this code and create your own header</p>
     </>
   );
 };
