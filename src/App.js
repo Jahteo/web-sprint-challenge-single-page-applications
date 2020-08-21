@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, Route, Switch } from "react-router-dom"
 import NavBar from "./components/NavBar"
 import Home from "./components/Home"
 
