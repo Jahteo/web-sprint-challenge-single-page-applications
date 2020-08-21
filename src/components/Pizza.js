@@ -1,10 +1,11 @@
 import React, { useState } from "react"
 import { Link, Route, Switch } from "react-router-dom"
+import * as yup from "yup"
 
 export default function Pizza () {
     const initialOrder = {name: "", size: "", toppings: {cheese: "", anchovies: "", pepperoni: "", balsamic: ""}, instructions: ""}
     const [order, setOrder] = useState({initialOrder})
-
+    const [errors, setErrors] = useState()
 
     const handleChanges = (e) => {
         const newOrderData = {...order, [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value}
@@ -16,6 +17,7 @@ export default function Pizza () {
         e.preventDefault();
         //axios.post
     }
+
     return (
         <div>
             <h1>Build Your Own Pizza</h1>
@@ -33,16 +35,16 @@ export default function Pizza () {
                 <br />
                 <p>Choose your toppings</p>
                     <label htmlFor="cheese" /> Extra cheese
-                        <input id="cheese" type="checkbox" name="cheese" checked={true} onChange={handleChanges} data-cy="cheese"/>
+                        <input id="cheese" type="checkbox" name="cheese" checked={order.cheese} onChange={handleChanges} data-cy="cheese"/>
                     <label htmlFor="anchovies" /> Anchovies
-                        <input id="anchovies" type="checkbox" name="anchovies" checked={true} onChange={handleChanges} data-cy="anchovies"/>
+                        <input id="anchovies" type="checkbox" name="anchovies" checked={order.anchovies} onChange={handleChanges} data-cy="anchovies"/>
                     <label htmlFor="pepperoni" /> Pepperoni
-                      <input id="pepperoni" type="checkbox" name="pepperoni" checked={true} onChange={handleChanges} data-cy="pepperoni"/>
+                      <input id="pepperoni" type="checkbox" name="pepperoni" checked={order.pepperoni} onChange={handleChanges} data-cy="pepperoni"/>
                     <label htmlFor="balamic" /> Balamic Dennissimo
-                        <input id="balamic" type="checkbox" name="balamic" checked={true} onChange={handleChanges} data-cy="balamic"/>
+                        <input id="balamic" type="checkbox" name="balamic" checked={order.balsamic} onChange={handleChanges} data-cy="balamic"/>
                 <br />
                 <label htmlFor="instructions" /> Special Instructions
-                    <textarea id="instructions" onChange={handleChanges} value={order.instructions} data-cy="instructions" placeholder="Type any special requests here"></textarea>
+                    <textarea id="instructions" onChange={handleChanges} name="instructions" value={order.instructions} data-cy="instructions" placeholder="Type any special requests here"></textarea>
                 <button type="submit">Place Order</button>
             </form>
         </div>
