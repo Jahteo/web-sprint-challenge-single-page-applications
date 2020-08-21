@@ -1,11 +1,12 @@
 import React, { useState } from "react"
 import { Link, Route, Switch } from "react-router-dom"
 import * as yup from "yup"
+import axios from "axios"
 
 export default function Pizza () {
-    const initialOrder = {name: "", size: "", toppings: {cheese: "", anchovies: "", pepperoni: "", balsamic: ""}, instructions: ""}
-    const [order, setOrder] = useState({initialOrder})
+    const [order, setOrder] = useState({name: "", size: "", toppings: {cheese: "", anchovies: "", pepperoni: "", balsamic: ""}, instructions: ""})
     const [errors, setErrors] = useState({name: "", size: "", toppings: {cheese: "", anchovies: "", pepperoni: "", balsamic: ""}, instructions: ""})
+    const [post, setPost] = useState()
 
     //mine is erroring out for some reason
     const formSchema = yup.object().shape({
@@ -63,7 +64,14 @@ export default function Pizza () {
     }
     const submitOrder = (e) => {
         e.preventDefault();
-        //axios.post
+        //reset moved to before axios.post() to prevent double click submission errors.
+        setOrder({name: "", size: "", toppings: {cheese: "", anchovies: "", pepperoni: "", balsamic: ""}, instructions: ""});
+        axios.post("https://reqres.in/api/users", order)
+            .then(res => {
+                setPost(res.data);
+                console.log("success", res.data);
+            })
+            .catch(err => console.log(err.response));
     }
 
     return (
@@ -94,7 +102,7 @@ export default function Pizza () {
                 <br />
                 <label htmlFor="instructions" /> Special Instructions
                     <textarea id="instructions" onChange={handleChanges} name="instructions" value={order.instructions} data-cy="instructions" placeholder="Type any special requests here"></textarea>
-                <button type="submit">Place Order</button>
+                <button type="submit" data-cy="submit" >Place Order</button>
             </form>
         </div>
     )
